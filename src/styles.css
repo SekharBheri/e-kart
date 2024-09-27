@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+.container {
+    margin-top: 50px;
+  }
+  
+  .card {
+    margin-bottom: 20px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+  }
