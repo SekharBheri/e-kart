@@ -4,7 +4,19 @@
     <span>Welcome, {{ loggedInUser.email }}</span>
     <button class="btn btn-danger" (click)="logout()">Logout</button>
   </div>
-  
-  <!-- Router outlet to load specific components -->
+
+  <div *ngIf="notification" class="notification-popup" role="alert">
+    {{ notification }}
+  </div>
+
+   <!-- Confirmation message popup with Yes/No buttons -->
+   <div *ngIf="confirmation" class="confirmation-popup" role="alert">
+    {{ confirmation.message }}
+    <div class="confirmation-buttons">
+      <button class="btn btn-primary" (click)="confirmAction()">Yes</button>
+      <button class="btn btn-secondary" (click)="cancelAction()">No</button>
+    </div>
+  </div>
+     
   <router-outlet></router-outlet>
 </div>

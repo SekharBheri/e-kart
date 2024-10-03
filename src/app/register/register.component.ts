@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,7 @@ export class RegisterComponent {
   emailError = '';
   passwordError = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private notificationService: NotificationService) {}
 
   onRegister() {
     // Reset previous validation state
@@ -68,7 +69,7 @@ export class RegisterComponent {
     localStorage.setItem('users', JSON.stringify(users));
 
     // Show success message
-    alert('Registration Successful Please login to continue.');
+    this.notificationService.showNotification('Registration Successful! Please login to continue.');    
     this.router.navigate(['/login']);
   }
 }

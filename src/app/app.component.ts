@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { NotificationService } from './notification.service';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +12,29 @@ export class AppComponent implements OnInit {
   title = 'e-kart';
   loggedInUser: any;
   currentUrl: string = '';
+  notification: string | null = null;
+  confirmation: { message: string; onConfirm: () => void; onCancel: () => void } | null = null;
 
-  constructor(private router: Router, private authService: AuthService) {
+
+  constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {
     this.router.events.subscribe((event) => {
       // Check current URL on navigation events
       if (event instanceof NavigationEnd) {
         this.currentUrl = event.url;
       }
     });
+
+    this.notificationService.notification$.subscribe((message) => {
+      this.notification = message;
+      setTimeout(() => {
+        this.notification = null; // Hide notification after 3 seconds
+      }, 3000);
+    });
+
+    this.notificationService.confirmation$.subscribe((confirmation) => {
+      this.confirmation = confirmation;
+    });
+    
   }
 
   ngOnInit() {
@@ -34,9 +50,23 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    sessionStorage.clear(); // Clear all session storage data
-   // localStorage.removeItem('loggedInUser');  // Optionally clear logged-in user details
+    sessionStorage.clear();    
     this.router.navigate(['/login']);
+    this.notificationService.showNotification("You have successfully logged out!");
+  }
+
+  confirmAction() {
+    if (this.confirmation) {
+      this.confirmation.onConfirm();
+      this.confirmation = null; // Clear confirmation after action
+    }
+  }
+
+  cancelAction() {
+    if (this.confirmation) {
+      this.confirmation.onCancel();
+      this.confirmation = null; // Clear confirmation after action
+    }
   }
   
 }

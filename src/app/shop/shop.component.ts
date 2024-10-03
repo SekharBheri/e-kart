@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-shop',
@@ -17,7 +19,7 @@ export class ShopComponent implements OnInit {
 
   cartItemCount = 0;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.updateCartItemCount();
@@ -74,11 +76,25 @@ export class ShopComponent implements OnInit {
       // Show validation message if the cart is empty
       alert('Your cart is empty! Please add items before checking out.');
     } else {
-      // If cart contains items, show checkout success message and return to the shop page
-      alert('Checkout successful!');
-      this.router.navigate(['/shop']); // Navigate back to the shop page
-      sessionStorage.removeItem('cart'); // Clear the cart after successful checkout
-      this.cartItemCount = 0; // Reset the cart item count
+      
+      this.notificationService.showConfirmation(
+        'Checkout successful! Do you want to continue?',
+        () => {
+          // Action for "Yes" - redirect to another page
+          this.router.navigate(['/shop']);
+          sessionStorage.removeItem('cart'); // Clear the cart after successful checkout
+          this.cartItemCount = 0; // Reset the cart item count
+        },
+        () => {
+          // Action for "No" - redirect to another page
+          this.authService.logout();
+          sessionStorage.clear();    
+          this.router.navigate(['/login']);
+        }
+      );
+      
+      
+      
     }
   }
 

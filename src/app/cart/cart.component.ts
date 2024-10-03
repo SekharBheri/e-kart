@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-cart',
@@ -8,7 +10,7 @@ import { Router } from '@angular/router';
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.loadCart();
@@ -40,8 +42,23 @@ export class CartComponent implements OnInit {
       alert('Your cart is empty! Please add items before checking out.');
     } else {
       // If cart contains items, show checkout success message and return to the shop page
-      alert('Checkout successful!');
-      this.router.navigate(['/shop']); // Navigate back to the shop page
+      //alert('Checkout successful!');
+     
+      this.notificationService.showConfirmation(
+        'Checkout successful! Do you want to continue?',
+        () => {
+          // Action for "Yes" - redirect to another page
+          this.router.navigate(['/shop']);
+        },
+        () => {
+          // Action for "No" - redirect to another page
+          this.authService.logout();
+          sessionStorage.clear();    
+          this.router.navigate(['/login']);
+        }
+      );
+
+      //this.router.navigate(['/shop']); // Navigate back to the shop page
          
     }
   }
