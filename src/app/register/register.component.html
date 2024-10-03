@@ -5,24 +5,28 @@
     <div class="form-group">
       <label>First Name:</label>
       <input type="text" class="form-control" [(ngModel)]="firstName" name="firstName">
+      <div class="text-danger">{{ firstNameError }}</div>
     </div>
 
     <!-- Last Name -->
     <div class="form-group">
       <label>Last Name:</label>
       <input type="text" class="form-control" [(ngModel)]="lastName" name="lastName">
+      <div class="text-danger">{{ lastNameError }}</div>
     </div>
 
     <!-- Email -->
     <div class="form-group">
       <label>Email:</label>
       <input type="email" class="form-control" [(ngModel)]="email" name="email">
+      <div class="text-danger">{{ emailError }}</div>
     </div>
 
     <!-- Password -->
     <div class="form-group">
       <label>Password:</label>
       <input type="password" class="form-control" [(ngModel)]="password" name="password">
+      <div class="text-danger">{{ passwordError }}</div>
     </div>
 
     <!-- Submit Button -->

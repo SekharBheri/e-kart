@@ -11,43 +11,49 @@ export class RegisterComponent {
   email = '';
   password = '';
 
+  firstNameError = '';
+  lastNameError = '';
+  emailError = '';
+  passwordError = '';
+
   constructor(private router: Router) {}
 
   onRegister() {
     // Reset previous validation state
-    let validationErrors = '';
+    this.firstNameError = '';
+    this.lastNameError = '';
+    this.emailError = '';
+    this.passwordError = '';
 
-    // 1. First Name and Last Name Validation (only alphabet characters)
+    // 1. First Name and Last Name Validation
     const namePattern = /^[a-zA-Z]+$/;
     if (!namePattern.test(this.firstName)) {
-      validationErrors += 'First Name should contain only alphabetic characters.\n';
+      this.firstNameError = 'First Name should contain only alphabetic characters.';
     }
     if (!namePattern.test(this.lastName)) {
-      validationErrors += 'Last Name should contain only alphabetic characters.\n';
+      this.lastNameError = 'Last Name should contain only alphabetic characters.';
     }
 
-    // 2. Email Validation (Check for email format and duplication)
+    // 2. Email Validation
     const emailPattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     if (!emailPattern.test(this.email)) {
-      validationErrors += 'Please enter a valid email.\n';
+      this.emailError = 'Please enter a valid email.';
     } else {
-      // Check if the email is already registered
       const users = JSON.parse(localStorage.getItem('users') || '[]');
       const emailAlreadyRegistered = users.some((user: { email: string }) => user.email === this.email);
       if (emailAlreadyRegistered) {
-        validationErrors += 'This email is already registered.\n';
+        this.emailError = 'This email is already registered.';
       }
     }
 
-    // 3. Password Validation (Minimum 6 characters with at least 1 letter, 1 number, 1 special character)
+    // 3. Password Validation
     const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$/;
     if (!passwordPattern.test(this.password)) {
-      validationErrors += 'Password must be at least 6 characters long, contain at least one letter, one number, and one special character.\n';
+      this.passwordError = 'Password must be at least 6 characters long, contain at least one letter, one number, and one special character.';
     }
 
-    // If there are validation errors, show them in an alert
-    if (validationErrors) {
-      alert(validationErrors);
+    // If there are validation errors, return
+    if (this.firstNameError || this.lastNameError || this.emailError || this.passwordError) {
       return;
     }
 
@@ -61,7 +67,8 @@ export class RegisterComponent {
     });
     localStorage.setItem('users', JSON.stringify(users));
 
-    // Redirect to login page after successful registration
+    // Show success message
+    alert('Registration Successful Please login to continue.');
     this.router.navigate(['/login']);
   }
 }

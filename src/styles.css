@@ -10,3 +10,9 @@
   .card-title {
     font-size: 20px;
   }
+
+  .text-danger {
+    color: red;
+    font-size: 0.9em;
+  }
+  
