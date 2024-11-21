@@ -2,9 +2,14 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 interface ConfirmationNotification {
-  message: string;
+  message: string;  
   onConfirm: () => void;
   onCancel: () => void;
+}
+
+interface Notification {
+  message: string;
+  type: string; // Notification type: 'success', 'error', 'info', 'default'
 }
 
 @Injectable({
@@ -12,14 +17,15 @@ interface ConfirmationNotification {
 })
 
 export class NotificationService {
-  private notificationSubject = new Subject<string>();
+  private notificationSubject = new Subject<Notification>();
   notification$ = this.notificationSubject.asObservable();
 
   private confirmationSubject = new Subject<ConfirmationNotification>();
   confirmation$ = this.confirmationSubject.asObservable();
 
-  showNotification(message: string) {
-    this.notificationSubject.next(message);
+  showNotification(message: string, type: string = 'default') {
+    this.notificationSubject.next({message, type });
+    
   }
 
   showConfirmation(message: string, onConfirm: () => void, onCancel: () => void) {

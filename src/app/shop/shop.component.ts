@@ -73,8 +73,8 @@ export class ShopComponent implements OnInit {
     const cart = this.getCart();
 
     if (this.cartItemCount === 0 || cart.length === 0) {
-      // Show validation message if the cart is empty
-      alert('Your cart is empty! Please add items before checking out.');
+      
+      this.notificationService.showNotification("Your cart is empty! Please add items before checking out.", "error");
     } else {
       
       this.notificationService.showConfirmation(
@@ -90,6 +90,7 @@ export class ShopComponent implements OnInit {
           this.authService.logout();
           sessionStorage.clear();    
           this.router.navigate(['/login']);
+          this.notificationService.showNotification("You have successfully logged out!", 'success');
         }
       );
       

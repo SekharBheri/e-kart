@@ -37,13 +37,10 @@ export class CartComponent implements OnInit {
 
   checkout() {
        
-    if (this.cartItems.length === 0 ) {
-      // Show validation message if the cart is empty
-      alert('Your cart is empty! Please add items before checking out.');
+    if (this.cartItems.length === 0 ) {      
+      this.notificationService.showNotification("Your cart is empty! Please add items before checking out.", "error");
     } else {
-      // If cart contains items, show checkout success message and return to the shop page
-      //alert('Checkout successful!');
-     
+      
       this.notificationService.showConfirmation(
         'Checkout successful! Do you want to continue?',
         () => {
@@ -55,6 +52,7 @@ export class CartComponent implements OnInit {
           this.authService.logout();
           sessionStorage.clear();    
           this.router.navigate(['/login']);
+          this.notificationService.showNotification("You have successfully logged out!", 'success');
         }
       );
 

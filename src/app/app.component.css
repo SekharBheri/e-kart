@@ -3,7 +3,7 @@
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Adjust to center the element */
-    background-color: hsla(108, 90%, 19%, 0.473); /* Semi-transparent background */
+   /* background-color: hsla(108, 90%, 19%, 0.473);  Semi-transparent background */
     color: white; /* Text color */
     padding: 30px; /* Padding around the text */
     border-radius: 20px; /* Rounded corners */
@@ -15,6 +15,22 @@
   .notification-popup.hidden {
     opacity: 0; /* Fade out effect */
   }
+
+  .notification-popup.default {
+    background-color: hsla(108, 90%, 19%, 0.473); /* Default background */ 
+  }
+
+ .notification-popup.success {
+    background-color: green;
+ }
+
+ .notification-popup.error {
+    background-color: red;
+ }
+
+.notification-popup.info {
+    background-color: blue;
+ }
 
 /* Style for the popup container */
 .confirmation-popup {
@@ -65,5 +81,40 @@
 .confirmation-buttons button:hover {
   opacity: 0.8; /* Slight fade on hover */
 }
+
+.user-menu {
+  position: relative;
+  cursor: pointer;
+  font-size: 24px; /* Adjust size as needed */
+}
+
+.popup-menu {
+  position: absolute;
+  right: 0;
+  top: 90px;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 10;
+  width: 150px;
+}
+
+.popup-menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.popup-menu li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.popup-menu li:hover {
+  background-color: #f0f0f0b7;
+}
+
 
   

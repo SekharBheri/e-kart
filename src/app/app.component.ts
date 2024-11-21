@@ -11,8 +11,10 @@ import { NotificationService } from './notification.service';
 export class AppComponent implements OnInit {
   title = 'e-kart';
   loggedInUser: any;
+  menuOpen = false;
   currentUrl: string = '';
   notification: string | null = null;
+  notificationType: string = 'default';
   confirmation: { message: string; onConfirm: () => void; onCancel: () => void } | null = null;
 
 
@@ -22,14 +24,19 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.currentUrl = event.url;
       }
-    });
+    });    
 
-    this.notificationService.notification$.subscribe((message) => {
-      this.notification = message;
+    this.notificationService.notification$.subscribe((notification) => {
+      this.notification = notification.message; 
+      this.notificationType = notification.type; 
+      
       setTimeout(() => {
-        this.notification = null; // Hide notification after 3 seconds
+        this.notification = null;
+        this.notificationType = 'default'; 
       }, 3000);
     });
+
+
 
     this.notificationService.confirmation$.subscribe((confirmation) => {
       this.confirmation = confirmation;
@@ -52,7 +59,7 @@ export class AppComponent implements OnInit {
     this.authService.logout();
     sessionStorage.clear();    
     this.router.navigate(['/login']);
-    this.notificationService.showNotification("You have successfully logged out!");
+    this.notificationService.showNotification("You have successfully logged out!", 'success');
   }
 
   confirmAction() {
@@ -69,4 +76,12 @@ export class AppComponent implements OnInit {
     }
   }
   
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  navigateTo(path: string) {
+    this.router.navigate([path]);
+    this.menuOpen = false;
+  }
 }
