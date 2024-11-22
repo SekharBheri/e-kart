@@ -9,6 +9,7 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login', pathMatch: 'full' }, // Wildcard route
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'shop', component: ShopComponent },
