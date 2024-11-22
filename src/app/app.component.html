@@ -2,8 +2,7 @@
   <!-- Conditional rendering based on route -->
   <div *ngIf="loggedInUser && isShopOrCartPage()" class="d-flex justify-content-between align-items-center">
     <span>Welcome, {{ loggedInUser.email }}</span>
-    <!-- <button class="btn btn-danger" (click)="logout()">Logout</button> -->
-     <!-- User menu with popup -->
+    
            
     <div class="user-menu" (click)="toggleMenu()">
       <i class="fa fa-user-circle" aria-hidden="true"></i>
@@ -11,7 +10,7 @@
 
     <div *ngIf="menuOpen" class="popup-menu">
       <ul>
-        <li (click)="navigateTo('profile')">My Profile</li>
+        <li (click)="navigateTo('myprofile')">My Profile</li>
         <li (click)="navigateTo('wishlist')">Wishlist</li>        
         <li (click)="logout()">Logout</li>
       </ul>

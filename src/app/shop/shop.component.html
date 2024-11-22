@@ -7,20 +7,25 @@
 
   <div class="row">
     <div class="col-md-4" style="max-width: 350px;" *ngFor="let item of items">
-      <div class="card h-100">
+      <div class="card h-100 position-relative">
         <img [src]="item.imageUrl" class="card-img-top" alt="{{ item.name }}" style="height: 180px; width: 100%; object-fit: contain;">
 
+        <!-- Wishlist Icon (Top Right) -->
+        <i class="bi"
+           [ngClass]="{'bi-heart-fill': isInWishlist(item), 'bi-heart': !isInWishlist(item)}"
+           style="cursor: pointer; color: red; position: absolute; top: 10px; right: 10px;"
+           (click)="toggleWishlist(item)"></i>
 
         <div class="card-body custom-card-body">
           <h5 class="card-title">{{ item.name }}</h5>
           <p class="card-text">{{ item.price | currency }}</p>
+          
           <div class="d-flex justify-content-center align-items-center mt-auto">
             <button class="btn btn-danger btn-sm" (click)="decreaseItemCount(item)">-</button>
             <span class="mx-3">{{ getCartItemCount(item) || 0 }}</span>
             <button class="btn btn-success btn-sm" (click)="increaseItemCount(item)">+</button>
           </div>
         </div>
-        
       </div>
     </div>
   </div>

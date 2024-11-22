@@ -27,12 +27,12 @@ export class ShopComponent implements OnInit {
 
   increaseItemCount(item: any) {
     const cart = this.getCart();
-    const cartItem = cart.find((i: any) => i.id === item.id); // Use unique 'id' for each item
-    
+    const cartItem = cart.find((i: any) => i.id === item.id);
+
     if (cartItem) {
-      cartItem.count++; // Increase the count of the item in the cart
+      cartItem.count++;
     } else {
-      cart.push({ ...item, count: 1 }); // Add new item to the cart with count set to 1
+      cart.push({ ...item, count: 1 });
     }
 
     this.saveCart(cart);
@@ -44,11 +44,11 @@ export class ShopComponent implements OnInit {
     const cartItem = cart.find((i: any) => i.id === item.id);
 
     if (cartItem && cartItem.count > 0) {
-      cartItem.count--; // Decrease the item count
+      cartItem.count--;
 
       if (cartItem.count === 0) {
         const index = cart.indexOf(cartItem);
-        cart.splice(index, 1); // Remove the item from the cart if count is 0
+        cart.splice(index, 1);
       }
     }
 
@@ -56,55 +56,72 @@ export class ShopComponent implements OnInit {
     this.updateCartItemCount();
   }
 
-  // Utility method to update total cart item count
   updateCartItemCount() {
     const cart = this.getCart();
-    this.cartItemCount = cart.reduce((sum: number, item: any) => sum + item.count, 0); // Sum up all item counts
+    this.cartItemCount = cart.reduce((sum: number, item: any) => sum + item.count, 0);
   }
 
-  // Method to get the count of a specific item from the cart
   getCartItemCount(item: any): number {
     const cart = this.getCart();
     const cartItem = cart.find((i: any) => i.id === item.id);
-    return cartItem ? cartItem.count : 0; // Return the count or 0 if item is not found
+    return cartItem ? cartItem.count : 0;
   }
 
   checkout() {
     const cart = this.getCart();
-
     if (this.cartItemCount === 0 || cart.length === 0) {
-      
       this.notificationService.showNotification("Your cart is empty! Please add items before checking out.", "error");
     } else {
-      
       this.notificationService.showConfirmation(
         'Checkout successful! Do you want to continue?',
         () => {
-          // Action for "Yes" - redirect to another page
           this.router.navigate(['/shop']);
-          sessionStorage.removeItem('cart'); // Clear the cart after successful checkout
-          this.cartItemCount = 0; // Reset the cart item count
+          sessionStorage.removeItem('cart');
+          this.cartItemCount = 0;
         },
         () => {
-          // Action for "No" - redirect to another page
           this.authService.logout();
           sessionStorage.clear();    
           this.router.navigate(['/login']);
           this.notificationService.showNotification("You have successfully logged out!", 'success');
         }
       );
-      
-      
-      
     }
   }
 
-  // Utility methods to get and save the cart in session storage
   getCart() {
     return JSON.parse(sessionStorage.getItem('cart') || '[]');
   }
 
   saveCart(cart: any[]) {
     sessionStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Wishlist Methods
+  toggleWishlist(item: any) {
+    const wishlist = this.getWishlist();
+    const index = wishlist.findIndex((i: any) => i.id === item.id);
+
+    if (index === -1) {
+      wishlist.push(item);  // Add item to wishlist
+    } else {
+      wishlist.splice(index, 1);  // Remove item from wishlist
+    }
+
+    this.saveWishlist(wishlist);
+  }
+
+  isInWishlist(item: any): boolean {
+    const wishlist = this.getWishlist();
+    return wishlist.some((i: any) => i.id === item.id);
+  }
+
+  // Utility methods to manage wishlist in session storage
+  getWishlist() {
+    return JSON.parse(sessionStorage.getItem('wishlist') || '[]');
+  }
+
+  saveWishlist(wishlist: any[]) {
+    sessionStorage.setItem('wishlist', JSON.stringify(wishlist));
   }
 }

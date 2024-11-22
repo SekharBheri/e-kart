@@ -52,7 +52,8 @@ export class AppComponent implements OnInit {
   }
 
   isShopOrCartPage() {
-    return this.currentUrl.includes('/shop') || this.currentUrl.includes('/cart');
+    return this.currentUrl.includes('/shop') || this.currentUrl.includes('/cart') 
+    || this.currentUrl.includes('/myprofile') || this.currentUrl.includes('/wishlist');
   }
 
   logout() {

@@ -1,0 +1,38 @@
+/* myprofile.component.css */
+.profile-container {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 0 auto;
+    
+  }
+  
+  .profile-title {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .profile-table {
+    width: 100%;
+    border-collapse: separate;  /* Allows space between cells */
+    border-spacing: 10px;  /* Space between the cells */
+  }
+  
+  .profile-table td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .profile-label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .profile-value {
+    color: #666;
+  }
+  
